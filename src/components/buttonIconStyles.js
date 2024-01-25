@@ -1,5 +1,4 @@
 import commonStyles from '../constants/commonStyles';
-import sizes from '../constants/sizes';
 
 const basicStyles = {
   ...commonStyles.flexContainer,

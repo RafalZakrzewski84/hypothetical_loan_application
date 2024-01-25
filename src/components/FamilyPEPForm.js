@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createUseStyles } from 'react-jss';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,9 +10,6 @@ import SelectInputWithLabel from './inputs/SelectInputWithLabel';
 import InfoModal from './InfoModal';
 
 import { useGlobalStyles } from '../constants/globalStyles';
-import styles from './familyPEPFormStyles';
-
-const useStyles = createUseStyles(styles);
 
 const EditableForm = ({
   formName,
@@ -24,7 +20,6 @@ const EditableForm = ({
   errors,
   onChange,
 }) => {
-  const classes = useStyles();
   const globalClasses = useGlobalStyles();
 
   const [showModal, setShowModal] = useState(false);

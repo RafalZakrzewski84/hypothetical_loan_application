@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createUseStyles } from 'react-jss';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,9 +11,6 @@ import SelectInputWithLabel from './inputs/SelectInputWithLabel';
 import InfoIcon from './InfoIcon';
 
 import { useGlobalStyles } from '../constants/globalStyles';
-import styles from './beneficiaryFormStyles';
-
-const useStyles = createUseStyles(styles);
 
 const BeneficiaryForm = ({
   formName,
@@ -25,7 +21,6 @@ const BeneficiaryForm = ({
   errors,
   onChange,
 }) => {
-  const classes = useStyles();
   const globalClasses = useGlobalStyles();
 
   const [showModal, setShowModal] = useState(false);
