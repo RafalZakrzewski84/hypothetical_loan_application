@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,79 +14,114 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import ResizableInput from './inputs/ResizableInput';
+import FormContainer from './FormContainer';
+import ButtonIcon from './ButtonIcon';
 
+import { useGlobalStyles } from '../constants/globalStyles';
 import styles from './contactInfoFormStyles';
 
 const useStyles = createUseStyles(styles);
 
-const LoanForm = () => {
+const ContactInfoForm = ({ values, touched, errors, onChange }) => {
   const classes = useStyles();
+  const globalClasses = useGlobalStyles();
+  const [showForm, setShowForm] = useState(false);
+
+  const handleOnClick = event => {
+    const excludedElements = ['contactInfoEmail', 'contactInfoPhone'];
+    if (excludedElements.includes(event.target.id)) return;
+    setShowForm(false);
+  };
+
   return (
     <Container className="mb-5">
-      <Row className="mb-3">
+      <Row className="mb-2">
         <Col></Col>
         <Col md={10} lg={10} xl={8}>
-          <div className={classes.box}>
-            <div className={classes.contactName}>
-              <div className={classes.showFormIcon}>
+          <div className={classes.contactInfoContainer}>
+            <div className={classes.contactNameSection}>
+              <ButtonIcon
+                className={classes.showFormButton}
+                onClick={() => setShowForm(true)}
+              >
                 <FontAwesomeIcon icon={faPen} />
-              </div>
-              <p>Anna Maria Tamm Rodriguez Espinosa</p>
+              </ButtonIcon>
+              <p
+                className={classes.contactFullName}
+              >{`${values.beneficiaryFirstName} ${values.beneficiaryLastName}`}</p>
             </div>
-            <div className={classes.contactData}>
-              <div className={classes.contactDataItem}>
+            <div className={classes.contactDetails}>
+              <div className={classes.contactDetailsItem}>
                 <FontAwesomeIcon icon={faUser} />
-                <p>38912052254</p>
+                <p>{values.beneficiaryPersonalIdNumber}</p>
               </div>
-              <div className={classes.contactDataItem}>
+              <div className={classes.contactDetailsItem}>
                 <FontAwesomeIcon icon={faSquarePhone} />
-                <p>+372 5289 6572</p>
+                <p>{values.phone}</p>
               </div>
-              <div className={classes.contactDataItem}>
+              <div className={classes.contactDetailsItem}>
                 <FontAwesomeIcon icon={faEnvelope} />
-                <p>anna.tamm@gmail.com</p>
+                <p>{values.email}</p>
               </div>
             </div>
           </div>
         </Col>
         <Col></Col>
       </Row>
-      <Row>
-        <Col></Col>
-        <Col md={10} lg={10} xl={8}>
-          <div className={classes.formBox}>
-            <div className={classes.closeFormIcon}>
-              <FontAwesomeIcon icon={faChevronRight} />
-            </div>
+      {showForm && (
+        <FormContainer
+          sideOfLabel="left"
+          colorLight
+          isMoved={showForm}
+          onClick={handleOnClick}
+        >
+          <div className={globalClasses.formContainerTextLabel}>
             <p className={classes.formBoxParagraph}>Change your contact Info</p>
-            <div className={classes.inputsBox}>
-              <div className="d-flex justify-content-center align-items-center">
-                <ResizableInput
-                  id="contactInfoPhone"
-                  type="text"
-                  placeholder="+372 5289 6572"
-                  initialWidth={13}
-                >
-                  <FontAwesomeIcon icon={faSquarePhone} />
-                </ResizableInput>
-              </div>
-              <div className="d-flex justify-content-center align-items-center">
-                <ResizableInput
-                  id="contactInfoEmail"
-                  type="email"
-                  placeholder="anna.tamm@gmail.com"
-                  initialWidth={20}
-                >
-                  <FontAwesomeIcon icon={faEnvelope} />
-                </ResizableInput>
-              </div>
-            </div>
+            {!!errors.phone && (
+              <p className={classes.formBoxError}>{errors.phone}</p>
+            )}
+            {!!errors.email && (
+              <p className={classes.formBoxError}>{errors.email}</p>
+            )}
           </div>
-        </Col>
-        <Col></Col>
-      </Row>
+          <div className={globalClasses.formContainerInputsContainer}>
+            <ResizableInput
+              id="contactInfoPhone"
+              type="text"
+              placeholder="+372 5289 6572"
+              initialWidth={13}
+              name="phone"
+              value={values.phone}
+              onChange={onChange}
+              isValid={touched.phone && !errors.phone}
+            >
+              <FontAwesomeIcon icon={faSquarePhone} />
+            </ResizableInput>
+
+            <ResizableInput
+              id="contactInfoEmail"
+              type="email"
+              placeholder="anna.tamm@gmail.com"
+              initialWidth={20}
+              name="email"
+              value={values.email}
+              onChange={onChange}
+              isValid={touched.email && !errors.email}
+            >
+              <FontAwesomeIcon icon={faEnvelope} />
+            </ResizableInput>
+          </div>
+          <ButtonIcon
+            className={classes.closeFormButton}
+            onClick={() => setShowForm(false)}
+            buttonColor="dark"
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </ButtonIcon>
+        </FormContainer>
+      )}
     </Container>
   );
 };
 
-export default LoanForm;
+export default ContactInfoForm;

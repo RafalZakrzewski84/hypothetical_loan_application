@@ -14,6 +14,9 @@ const ResizableInput = ({
   onChange,
   initialWidth = 12,
   className,
+  name,
+  value,
+  isValid,
 }) => {
   const classes = useStyles();
   const containerClasses = classNames(classes.resizableInput, className);
@@ -84,6 +87,8 @@ const ResizableInput = ({
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        name={name}
+        value={value}
       />
     </div>
   );

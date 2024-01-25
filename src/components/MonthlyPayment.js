@@ -6,16 +6,17 @@ import styles from './monthlyPaymentStyles';
 
 const useStyles = createUseStyles(styles);
 
-const MonthlyPayment = ({ className }) => {
+const MonthlyPayment = ({ text, helpText, supText, className }) => {
   const classes = useStyles();
   const containerClasses = classNames(className);
   return (
     <div className={containerClasses}>
       <div className={classes.mpBox}>
         <p className={classes.mpParagraph}>
-          MonthlyPayment
+          {text}
           <span className={classes.mpSpan}>
-            95,27<sup className={classes.mpSup}>€</sup>
+            {helpText}
+            <sup className={classes.mpSup}>{supText}</sup>
           </span>
         </p>
       </div>

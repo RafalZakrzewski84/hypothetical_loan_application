@@ -15,6 +15,11 @@ const CheckboxInput = ({
   inputType = 'checkbox',
   children,
   className,
+  name,
+  value,
+  onChange,
+  isValid,
+  error,
 }) => {
   const classes = useStyles();
   const containerClasses = classNames(className);
@@ -29,7 +34,14 @@ const CheckboxInput = ({
         }
       >
         <Form.Group controlId={`${formName}Checkbox${inputId}`}>
-          <Form.Check type={inputType} label={label} />
+          <Form.Check
+            type={inputType}
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+            defaultChecked={value}
+          />
         </Form.Group>
         {children}
       </div>

@@ -9,10 +9,15 @@ const styles = {
       color: commonStyles.colors.bwTundra,
       backgroundColor: 'transparent',
       ...commonStyles.typographies.typography6,
+      cursor: 'pointer',
     },
     '& input:focus': {
       borderColor: commonStyles.colors.secondaryElectricPurple,
       boxShadow: 'none',
+    },
+    '& input:disabled': {
+      backgroundColor: 'transparent',
+      color: commonStyles.colors.grey3,
     },
   },
   labelHidden: {

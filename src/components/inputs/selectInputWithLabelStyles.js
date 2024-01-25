@@ -9,6 +9,7 @@ const styles = {
       color: commonStyles.colors.bwTundra,
       backgroundColor: 'transparent',
       ...commonStyles.typographies.typography6,
+      cursor: 'pointer',
     },
     '& select:focus': {
       borderColor: commonStyles.colors.secondaryElectricPurple,

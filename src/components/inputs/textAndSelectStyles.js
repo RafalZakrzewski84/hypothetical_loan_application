@@ -1,39 +1,77 @@
 import commonStyles from '../../constants/commonStyles';
+import sizes from '../../constants/sizes';
 
 const styles = {
   textAndSelectBox: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingBottom: commonStyles.margins.sm,
+    position: 'relative',
+    [sizes.up('lg')]: {
+      ...commonStyles.flexContainer,
+      alignItems: 'stretch',
+      paddingBottom: 0,
+    },
+  },
+
+  textAndSelectLabelBox: {
+    ...commonStyles.flexContainer,
+    paddingBottom: commonStyles.margins.xs,
+    justifyContent: 'space-between',
+    width: '50%',
+    flex: 1,
+    [sizes.up('lg')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+    },
   },
 
   textAndSelectLabel: {
-    ...commonStyles.typographies.typography3,
+    ...commonStyles.typographies.typography12,
+    color: commonStyles.colors.grey4,
+    flex: 1,
+    [sizes.up('lg')]: {
+      ...commonStyles.typographies.typography4,
+    },
+  },
+
+  textAndSelectInfo: {
+    ...commonStyles.typographies.typography1,
     color: commonStyles.colors.grey4,
     marginRight: commonStyles.margins.xs,
+    marginBottom: commonStyles.margins.xs,
+  },
+
+  textAndSelectInfoError: {
+    color: commonStyles.colors.stateError,
   },
 
   textAndSelectInputsBox: {
     position: 'relative',
-    display: 'flex',
-    marginRight: commonStyles.margins.md,
+    flex: 1,
   },
 
   textAndSelectInput: {
     ...commonStyles.typographies.typography8,
+    display: 'inline-block',
+    width: '50%',
     color: commonStyles.colors.primaryPaleWhite,
     backgroundColor: 'transparent',
     border: 'none',
     borderBottom: commonStyles.borders.inputThin,
     paddingLeft: '5px',
     outline: 'none',
-    width: '110px',
     textAlign: 'center',
     cursor: 'pointer',
     transition: commonStyles.transitions.medium,
     '&:hover': {
       borderBottom: commonStyles.borders.inputThick,
     },
+    [sizes.up('lg')]: {
+      width: '70%',
+    },
+  },
+
+  textAndSelectInputError: {
+    borderBottom: commonStyles.borders.inputThickError,
   },
 
   textAndSelectOpenButton: {
@@ -51,12 +89,28 @@ const styles = {
     color: commonStyles.colors.bwTundra,
     borderRadius: '3px',
     overflow: 'hidden',
-    zIndex: '100',
+    zIndex: '1000',
     position: 'absolute',
-    top: 30,
-    left: 115,
-    width: '180px',
+    top: 25,
+    left: 165,
+    width: '160px',
     display: 'none',
+    [sizes.up('sm')]: {
+      top: 5,
+      left: 237,
+    },
+    [sizes.up('md')]: {
+      top: 5,
+      left: 265,
+    },
+    [sizes.up('lg')]: {
+      top: 30,
+      left: 70,
+    },
+    [sizes.up('xxl')]: {
+      top: 30,
+      left: 83,
+    },
   },
 
   textAndSelectDatalistOption: {

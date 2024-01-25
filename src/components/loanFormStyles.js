@@ -1,8 +1,7 @@
 import commonStyles from '../constants/commonStyles';
 
 const styles = {
-  loanFormBox: {
-    width: '100%',
+  loanFormInfoContainer: {
     backgroundColor: commonStyles.colors.primaryRoyalPurple,
     color: commonStyles.colors.primaryPaleWhite,
     height: '58px',
@@ -24,34 +23,22 @@ const styles = {
     ...commonStyles.typographies.typography12,
   },
 
-  showFormIcon: {
-    '& svg': {
-      fontSize: '13px',
-      position: 'absolute',
-      top: 23,
-      left: 26,
-      cursor: 'pointer',
+  showFormButton: {
+    backgroundColor: 'transparent',
+    fontSize: '13px',
+    left: 26,
+    '&:hover': {
+      backgroundColor: 'transparent',
+      color: commonStyles.colors.primaryPaleWhite,
     },
   },
 
-  closeFormIcon: {
-    ...commonStyles.flexContainer,
-    position: 'absolute',
-    top: 13,
+  closeFormButton: {
     right: 20,
-    cursor: 'pointer',
-    width: '31px',
-    height: '31px',
-    borderRadius: 50,
-    backgroundColor: commonStyles.colors.primaryPaleWhite,
-    color: commonStyles.colors.primaryRoyalPurple,
-    transition: commonStyles.transitions.small,
     '&:hover': {
       boxShadow: commonStyles.shadows.shadowIconHover,
-    },
-    '& svg': {
-      width: '12px',
-      height: '12px',
+      backgroundColor: commonStyles.colors.primaryPaleWhite,
+      color: commonStyles.colors.primaryRoyalPurple,
     },
   },
 };

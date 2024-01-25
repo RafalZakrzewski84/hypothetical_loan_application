@@ -1,4 +1,5 @@
 import commonStyles from '../constants/commonStyles';
+import sizes from '../constants/sizes';
 
 const styles = {
   paragraphTitle: {
@@ -14,6 +15,16 @@ const styles = {
     height: '1px',
     width: '100%',
     backgroundColor: commonStyles.colors.grey4,
+  },
+  textCenter: {
+    '& input': {
+      textAlign: 'center',
+    },
+  },
+  textRight: {
+    '& input': {
+      textAlign: 'right',
+    },
   },
 };
 

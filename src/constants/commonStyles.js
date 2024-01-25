@@ -26,7 +26,8 @@ const commonStyles = {
   },
   borders: {
     inputThin: `1px solid ${colors.grey4}`,
-    inputThick: `2px solid ${colors.primaryPaleWhite}`,
+    inputThick: `1px solid ${colors.primaryPaleWhite}`,
+    inputThickError: `1px solid ${colors.stateError}`,
     border1: `5px solid ${colors.softLilac}`,
     inputResizable: `1px solid ${colors.grey3}`,
     optionsList: `1px solid ${colors.bwTundra}`,
@@ -39,12 +40,12 @@ const commonStyles = {
     typography1: {
       fontSize: '10px',
       fontWeight: 300,
-      lineHeight: '24px',
+      lineHeight: '10px',
     },
     typography12: {
       fontSize: '12px',
       fontWeight: 300,
-      lineHeight: '24px',
+      lineHeight: '12px',
     },
     typography2: {
       fontSize: '14px',

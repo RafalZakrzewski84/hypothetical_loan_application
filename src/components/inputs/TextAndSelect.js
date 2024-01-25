@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,66 +8,117 @@ import styles from './textAndSelectStyles';
 
 const useStyles = createUseStyles(styles);
 
-const TextAndSelect = ({ label, id, options, optionsUnit, className }) => {
+const TextAndSelect = ({
+  label,
+  id,
+  options,
+  optionsUnit,
+  showUnits,
+  className,
+  name,
+  value,
+  onChange,
+  isValid,
+  error,
+}) => {
   const classes = useStyles();
   const containerClasses = classNames(className);
   const [isDatalistOpen, setIsDatalistOpen] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const ulRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const handleOpenDatalist = event => {
+    event.stopPropagation();
+    setIsDatalistOpen(!isDatalistOpen);
+  };
 
   const handleSelectChange = event => {
-    const inputNewValue = parseInt(event.target.value, 10);
-    const input = document.getElementById(`input${id}`);
-    input.value = inputNewValue;
+    onChange(event);
   };
 
   const handleOnFocus = () => {
     setIsDatalistOpen(false);
-    const input = document.getElementById(`input${id}`);
-    input.value = '';
+    setIsInputFocused(true);
+    inputRef.current.value = '';
   };
 
   const handleOnBlur = () => {
-    const input = document.getElementById(`input${id}`);
-    const inputValue = parseInt(input.value, 10);
+    const inputValue = parseInt(inputRef.current.value, 10);
     const MIN_VALUE = options[0];
     const MAX_VALUE = options[options.length - 1];
 
     if (isNaN(inputValue)) {
-      input.value = MIN_VALUE + optionsUnit; // Set to the minimum value
+      const syntheticEvent = { target: { name, value: MIN_VALUE } };
+      onChange(syntheticEvent);
     } else {
       const clampedValue = Math.min(Math.max(inputValue, MIN_VALUE), MAX_VALUE);
-      input.value = clampedValue + optionsUnit;
+      const syntheticEvent = { target: { name, value: clampedValue } };
+      onChange(syntheticEvent);
     }
+
+    setIsInputFocused(false);
   };
 
-  const handleOpenDatalist = () => {
-    setIsDatalistOpen(!isDatalistOpen);
-  };
-
-  const handleOptionSelect = option => {
-    const input = document.getElementById(`input${id}`);
-    input.value = option + optionsUnit;
+  const handleOptionSelect = (option, event) => {
     setIsDatalistOpen(false);
+    const syntheticEvent = { target: { name, value: option } };
+    onChange(syntheticEvent);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = event => {
+      if (ulRef.current && !ulRef.current.contains(event.target)) {
+        setIsDatalistOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
+  const textAndSelectMessage = !error
+    ? `${options[0]} - ${options[options.length - 1]}`
+    : error;
+
+  const textAndSelectInfoClass = !error
+    ? classes.textAndSelectInfo
+    : `${classes.textAndSelectInfo} ${classes.textAndSelectInfoError}`;
+
+  const textAndSelectInputClass = !error
+    ? classes.textAndSelectInput
+    : `${classes.textAndSelectInput} ${classes.textAndSelectInputError}`;
 
   return (
     <div className={containerClasses}>
       <div className={classes.textAndSelectBox}>
-        <div className={classes.textAndSelectLabel}>{label}</div>
+        <div className={classes.textAndSelectLabelBox}>
+          <div className={classes.textAndSelectLabel}>{`${label}`}</div>
+          {isInputFocused && (
+            <div className={textAndSelectInfoClass}>{textAndSelectMessage}</div>
+          )}
+        </div>
         <div className={classes.textAndSelectInputsBox}>
           <input
             type="text"
-            name="data"
-            className={classes.textAndSelectInput}
+            className={textAndSelectInputClass}
             id={`input${id}`}
             list={`datalist${id}`}
             onChange={handleSelectChange}
             onFocus={handleOnFocus}
             onBlur={handleOnBlur}
+            ref={inputRef}
+            name={name}
+            value={value}
           />
           <button
             className={classes.textAndSelectOpenButton}
             onClick={handleOpenDatalist}
             aria-label="Open Options"
+            type="button"
           >
             {isDatalistOpen ? (
               <FontAwesomeIcon icon={faChevronUp} />
@@ -78,64 +129,39 @@ const TextAndSelect = ({ label, id, options, optionsUnit, className }) => {
           <ul
             id={`datalist${id}`}
             className={classes.textAndSelectDatalistBox}
-            style={{ display: isDatalistOpen ? 'block' : 'none' }}
+            style={{ display: isDatalistOpen ? 'inline' : 'none' }}
+            ref={ulRef}
           >
-            {options.map((option, index) => {
-              if (index === 0) {
-                return (
-                  <li
-                    key={'li' + index + option}
-                    className={classes.textAndSelectDatalistOption}
-                    onClick={() => handleOptionSelect(option)}
-                  >
-                    <div className={classes.textAndSelectMaxMinBox}>
-                      <p>
-                        {option}
-                        <sup className={classes.textAndSelectSup}>
-                          {optionsUnit}
-                        </sup>
-                      </p>
-                      <sub className={classes.textAndSelectSub}>
-                        Min. Allowed
-                      </sub>
-                    </div>
-                  </li>
-                );
-              } else if (index === options.length - 1) {
-                return (
-                  <li
-                    key={'li' + index + option}
-                    className={classes.textAndSelectDatalistOption}
-                    onClick={() => handleOptionSelect(option)}
-                  >
-                    <div className={classes.textAndSelectMaxMinBox}>
-                      <p>
-                        {option}
-                        <sup className={classes.textAndSelectSup}>
-                          {optionsUnit}
-                        </sup>
-                      </p>
-                      <sub className={classes.textAndSelectSub}>
-                        Max. Allowed
-                      </sub>
-                    </div>
-                  </li>
-                );
-              } else {
-                return (
-                  <li
-                    key={'li' + index + option}
-                    className={classes.textAndSelectDatalistOption}
-                    onClick={() => handleOptionSelect(option)}
-                  >
+            {options.map((option, index) => (
+              <li
+                key={`li${index}${option}`}
+                className={classes.textAndSelectDatalistOption}
+                onClick={event => handleOptionSelect(option, event)}
+              >
+                <div
+                  className={
+                    index === 0 || index === options.length - 1
+                      ? classes.textAndSelectMaxMinBox
+                      : ''
+                  }
+                >
+                  <p>
                     {option}
-                    <sup className={classes.textAndSelectSup}>
-                      {optionsUnit}
-                    </sup>
-                  </li>
-                );
-              }
-            })}
+                    {showUnits && (
+                      <sup className={classes.textAndSelectSup}>
+                        {optionsUnit}
+                      </sup>
+                    )}
+                  </p>
+                  {index === 0 && (
+                    <sub className={classes.textAndSelectSub}>Min. Allowed</sub>
+                  )}
+                  {index === options.length - 1 && (
+                    <sub className={classes.textAndSelectSub}>Max. Allowed</sub>
+                  )}
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

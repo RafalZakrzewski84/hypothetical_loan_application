@@ -19,7 +19,7 @@ const FormButton = () => {
         <Col></Col>
         <Col md={8} lg={6} xl={4}>
           <div className={classes.button}>
-            <Button variant="flat" size="lg">
+            <Button variant="flat" size="lg" type="submit">
               Continue
             </Button>
           </div>

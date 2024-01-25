@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 
@@ -14,29 +14,34 @@ const SelectInputWithLabel = ({
   label = '',
   selectOptions = [],
   className,
+  name,
+  value,
+  onChange,
+  isValid,
+  error,
 }) => {
   const classes = useStyles();
   const containerClasses = classNames(className);
 
-  const [selectValue, setSelectValue] = useState('');
+  const [selectHasValue, setSelectHasValue] = useState(false);
 
   const id = `${formName}${inputId.replaceAll(' ', '')}`;
 
-  const handleChange = event => {
-    setSelectValue(event.target.value);
-  };
+  useEffect(() => {
+    setSelectHasValue(!!value);
+  }, [value, setSelectHasValue]);
 
   return (
     <div className={containerClasses}>
       <Form.Group controlId={`${id}`} className={classes.customSelect}>
         <Form.Label
           className={
-            selectValue !== '' ? classes.labelVisible : classes.labelHidden
+            selectHasValue ? classes.labelVisible : classes.labelHidden
           }
         >
           {label}
         </Form.Label>
-        <Form.Select defaultValue={selectValue} onChange={handleChange}>
+        <Form.Select defaultValue={value} name={name} onChange={onChange}>
           <option value="">{label}</option>
           {selectOptions.length > 0 &&
             selectOptions.map(selectOption => (
