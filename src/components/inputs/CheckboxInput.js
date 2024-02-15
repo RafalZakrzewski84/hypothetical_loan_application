@@ -18,8 +18,6 @@ const CheckboxInput = ({
   name,
   value,
   onChange,
-  isValid,
-  error,
 }) => {
   const classes = useStyles();
   const containerClasses = classNames(className);

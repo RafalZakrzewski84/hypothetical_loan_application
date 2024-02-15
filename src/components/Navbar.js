@@ -24,7 +24,7 @@ const Navbar = () => {
         </Col>
         <Col>
           <div className={classes.hamburger}>
-            <img src={hamburger} className="App-logo" alt="logo" />
+            <img src={hamburger} className="App-logo" alt="hamburger" />
           </div>
         </Col>
       </Row>

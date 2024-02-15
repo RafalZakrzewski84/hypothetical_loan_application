@@ -42,16 +42,15 @@ const ResizableInput = ({
   };
 
   useEffect(() => {
+    const currentInput = inputRef.current;
+
     const resizeInput = () => {
-      const currentInput = inputRef.current;
       const INITIAL_INPUT_WIDTH = initialWidth;
       if (currentInput) {
         currentInput.style.width =
           Math.max(INITIAL_INPUT_WIDTH, currentInput.value.length) + 'ch';
       }
     };
-
-    const currentInput = inputRef.current;
 
     if (currentInput) {
       currentInput.addEventListener('input', resizeInput);

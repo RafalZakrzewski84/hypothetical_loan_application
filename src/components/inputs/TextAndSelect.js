@@ -60,25 +60,11 @@ const TextAndSelect = ({
     setIsInputFocused(false);
   };
 
-  const handleOptionSelect = (option, event) => {
+  const handleOptionSelect = option => {
     setIsDatalistOpen(false);
     const syntheticEvent = { target: { name, value: option } };
     onChange(syntheticEvent);
   };
-
-  useEffect(() => {
-    const handleOutsideClick = event => {
-      if (ulRef.current && !ulRef.current.contains(event.target)) {
-        setIsDatalistOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, []);
 
   const textAndSelectMessage = !error
     ? `${options[0]} - ${options[options.length - 1]}`

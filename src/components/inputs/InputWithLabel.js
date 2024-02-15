@@ -17,8 +17,6 @@ const InputWithLabel = ({
   name,
   value,
   onChange,
-  isValid,
-  error,
   disabled = false,
   readOnly = false,
 }) => {
